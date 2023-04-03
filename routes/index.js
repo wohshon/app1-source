@@ -3,7 +3,8 @@ var router = express.Router();
 const axios = require('axios');
 
 const version = process.env.VERSION || 'v1';
-
+const backendURL = process.env.DEMO_BACKEND_URL || 'http://localhost:8081/app2/submit';
+const app2URL = process.env.APP2_URL || 'http://localhost:8081/app2';
 // GET home page. 
 //curl -X GET localhost:8080
 router.get('/', function(req, res, next) {
@@ -11,9 +12,9 @@ router.get('/', function(req, res, next) {
 
   res.render('index.html', 
   { 
-    msg: process.env.HEADER_MSG || 'Sample App' 
+    msg: process.env.HEADER_MSG || 'Sample Reviews' 
     ,app_version: version || 'v1'
-    ,app_description: process.env.DESC || 'Sample application'
+    ,app_description: process.env.DESC || 'Sample review application'
   });
 
 });
@@ -23,7 +24,7 @@ router.get('/', function(req, res, next) {
 router.post('/submitForm', function(req, res, next){
   const payload = req.body;
   console.log(payload);
-  let baseUrl=process.env.DEMO_BACKEND_URL || 'http://localhost:8081/app2/submit';
+  let baseUrl=backendURL;
   const url = baseUrl;
   axios.post(url, payload)
   .then(resp => {
@@ -83,7 +84,7 @@ router.get('/callapp2/:message', function(req, res, next){
   }
     //console.log(h.end-user)
   //calling app2
-  let baseUrl=process.env.APP2_URL || 'http://localhost:8081/app2'
+  let baseUrl= app2URL
   const url = baseUrl+'/'+message;
   console.log('**********************URL '+url)
   //axios.get(url)
